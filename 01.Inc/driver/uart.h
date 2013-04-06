@@ -4,7 +4,7 @@
 //===========================================================================//
 
 #ifndef UART_H
-#define SUART_H
+#define UART_H
 
 //================ Include Header ===========================================//
 #include "stdint.h"
@@ -42,7 +42,7 @@ typedef struct uart_task_tag {
 }UartTask_t;
 
 
-typedef void UsartRevCallBack(uint8_t);
+typedef void UsartRevCallBack_t(uint8_t);
 //================ EXTERN FUNCTION ==========================================//
 void UsartInit(void);
 void UsartSetRevCallback(UsartRevCallBack* fn);

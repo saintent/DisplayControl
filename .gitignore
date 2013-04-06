@@ -1,0 +1,11 @@
+*.cspy.bat
+*.dbgdt
+*.dni
+*.wsdt
+*.dep
+*.sfr
+*.pbi
+*.pbi.cout
+*.pbd
+*.pbd.tmp
+*.pbd.browse

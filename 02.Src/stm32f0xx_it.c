@@ -31,6 +31,7 @@
 #include "stm32f0xx_it.h"
 #include "system.h"
 #include "uart.h"
+#include "timer.h"
 //#include "main.h"
 
 /** @addtogroup Template_Project
@@ -134,9 +135,14 @@ void DMA1_Channel2_3_IRQHandler(void) {
 
 }
 
-
+/**
+ * @brief TIM2 request
+ */
 void TIM2_IRQHandler(void) {
-
+	if(TIM_GetITStatus(TIM2, TIM_IT_Update)) {
+		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+		TimerInterrupt();
+	}
 }
 
 /**

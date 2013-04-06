@@ -19,7 +19,7 @@ void RevCb(uint8_t data);
 //================ PRIVATE DATA =============================================//
 // non extern data
 UartTask_t 			uartTask[USART_MAX] = { 0 };
-UsartRevCallBack*	revCb = RevCb;
+UsartRevCallBack_t*	revCb = RevCb;
 //================ PRIVATE DEFINE ===========================================//
 #define CURRENT_TASK	uartTask[USART_1].CurrentTask
 #define TASK			uartTask[USART_1].Task[CURRENT_TASK]
