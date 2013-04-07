@@ -6,7 +6,6 @@
 //
 //================ Include Header ===========================================//
 #include "uart.h"
-#include "stm32f0xx_dma.h"
 //================ PUBLIC METHOD ============================================//
 // extern function
 //
@@ -41,9 +40,6 @@ void UsartInit(void) {
 
 	// Enable USART clock
 	RCC_APB2PeriphClockCmd(UART_CLK, ENABLE);
-
-	// Enable DMA clock
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 
 	// Connect PXx to USART Tx
 	GPIO_PinAFConfig(UART_GPIO_PORT, UART_TX_PIN_SRC, UART_GPIO_AF);

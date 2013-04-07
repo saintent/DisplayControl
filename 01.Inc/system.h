@@ -94,19 +94,19 @@
 
 //--------------- LED Status -----------------
 #define ROW_PORT			GPIOB
-#define ROW1_PORT			GPIO_Pin_7
-#define ROW2_PORT			GPIO_Pin_6
-#define ROW3_PORT			GPIO_Pin_5
-#define ROW4_PORT			GPIO_Pin_4
-#define ROW5_PORT			GPIO_Pin_3
-#define ROW6_PORT			GPIO_Pin_2
-#define ROW7_PORT			GPIO_Pin_1
-#define ROW8_PORT			GPIO_Pin_0
+#define ROW1_PIN			GPIO_Pin_7
+#define ROW2_PIN			GPIO_Pin_6
+#define ROW3_PIN			GPIO_Pin_5
+#define ROW4_PIN			GPIO_Pin_4
+#define ROW5_PIN			GPIO_Pin_3
+#define ROW6_PIN			GPIO_Pin_2
+#define ROW7_PIN			GPIO_Pin_1
+#define ROW8_PIN			GPIO_Pin_0
 
-#define COLUM_PORT			GPIOB
-#define COLUM1_PIN			GPIO_Pin_10
-#define COLUM2_PIN			GPIO_Pin_9
-#define COLUM3_PIN			GPIO_PIN_8
+#define COLUMN_PORT			GPIOB
+#define COLUMN1_PIN			GPIO_Pin_10
+#define COLUMN2_PIN			GPIO_Pin_9
+#define COLUMN3_PIN			GPIO_Pin_8
 
 
 
