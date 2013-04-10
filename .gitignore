@@ -9,3 +9,6 @@
 *.pbd
 *.pbd.tmp
 *.pbd.browse
+*.sim
+*.out
+*.o

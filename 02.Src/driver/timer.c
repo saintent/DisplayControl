@@ -5,6 +5,7 @@
 //================ Index ====================================================//
 //
 //================ Include Header ===========================================//
+#include "timer.h"
 #include "stm32f0xx_tim.h"
 #include "system.h"
 //================ PUBLIC METHOD ============================================//
@@ -26,14 +27,15 @@ TimeOutReg_t TM_REG[TIMEOUT_MAX] = { NULL };
 //================ SOURCE CODE ==============================================//
 //---------------- Init routie ----------------------------------------------//
 void TimerInit(void) {
-	NVIC_InitTypeDef NVIC_InitStructure = {
-			.NVIC_IRQChannel = TIM2_IRQn,
-			.NVIC_IRQChannelPriority = 2,
-			.NVIC_IRQChannelCmd = ENABLE
-	};
-	NVIC_Init(&NVIC_InitStructure);
+
 	/* Enable clock for Timer2 module */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+
+	NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
 
 	TIM_TimeBaseInitTypeDef TimerInit = {
 			.TIM_Period = 100,
@@ -42,8 +44,10 @@ void TimerInit(void) {
 			.TIM_CounterMode = TIM_CounterMode_Up
 	};
 	TIM_TimeBaseInit(TIM2, &TimerInit);
-
-	TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
+	TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+	//TIM2->DIER |=
+    TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
+	
 }
 
 void TimerResetCounter(void) {
@@ -57,7 +61,7 @@ void TimerStart(void) {
 void TimerInterrupt(void) {
 	uint8_t i;
 	for(i = 0; i < TIMEOUT_MAX; i++) {
-		TimeOutCheck[i];
+		TimeOutCheck((TimeOutEvent_t)i);
 	}
 }
 
@@ -85,7 +89,7 @@ void TimeOutCheck(TimeOutEvent_t index) {
 		if (++TM_REG[index].Count >= TM_REG[index].Interval) {
 			// If function callback had initialed
 			if(TM_REG[index].Count != NULL) {
-				TM_REG[index].Count(TM_REG[index].CallbackParameter);
+				TM_REG[index].Callback(TM_REG[index].CallbackParameter);
 			}
 			TM_REG[index].Count = 0U;
 		}

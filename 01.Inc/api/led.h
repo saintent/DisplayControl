@@ -11,9 +11,61 @@
 #include "stdlib.h"
 #include "string.h"
 #include "system.h"
+#include "stm32f0xx_gpio.h"
+
 
 //================ PULBIC DEFINE ============================================//
 //----- Parameter define
+//---------------- DP Status ------------------
+#define DP_STA_PORT			GPIOC
+#define DP_STA_PIN			GPIO_Pin_13
+
+//---------------- 7 Segment ------------------
+#define C_PORT				GPIOB
+#define C_PIN				GPIO_Pin_12
+
+#define DP_PORT				GPIOB
+#define DP_PIN				GPIO_Pin_13
+
+#define E_PORT				GPIOB
+#define E_PIN				GPIO_Pin_14
+
+#define D_PORT				GPIOB
+#define D_PIN				GPIO_Pin_15
+
+#define F_PORT				GPIOC
+#define F_PIN				GPIO_Pin_6
+
+#define G_PORT				GPIOC
+#define G_PIN				GPIO_Pin_7
+
+#define B_PORT				GPIOC
+#define B_PIN				GPIO_Pin_8
+
+#define A_PORT				GPIOC
+#define A_PIN				GPIO_Pin_9
+
+#define COM1_PORT			GPIOC
+#define COM1_PIN			GPIO_Pin_4
+
+#define COM2_PORT			GPIOC
+#define COM2_PIN			GPIO_Pin_5
+
+//--------------- LED Status -----------------
+#define ROW_PORT			GPIOB
+#define ROW1_PIN			GPIO_Pin_7
+#define ROW2_PIN			GPIO_Pin_6
+#define ROW3_PIN			GPIO_Pin_5
+#define ROW4_PIN			GPIO_Pin_4
+#define ROW5_PIN			GPIO_Pin_3
+#define ROW6_PIN			GPIO_Pin_2
+#define ROW7_PIN			GPIO_Pin_1
+#define ROW8_PIN			GPIO_Pin_0
+
+#define COLUMN_PORT			GPIOB
+#define COLUMN1_PIN			GPIO_Pin_10
+#define COLUMN2_PIN			GPIO_Pin_9
+#define COLUMN3_PIN			GPIO_Pin_8
 //================ PUBLIC MACRO =============================================//
 //
 //================ TYPEDEF DATA TYPE DEFINITION =============================//
@@ -63,12 +115,16 @@ typedef enum LedType_tag {
 	M_ROW1,
 	STATUS_LED,
 	DIGIT1,
-	DIGIT2
+	DIGIT2,
+	DUM1,
+	DUM2,
+	DUM3
 }LedType_t;
 
 typedef enum LedCmd_tag {
-	LED_ON = 0,
-	LED_OFF
+	LED_OFF = 0,
+	LED_ON
+
 }LedCmd_t;
 //================ TYPEDEF STRUCT/UNION DATA TYPE DEFFINITION ===============//
 typedef struct LedCtr_tag {

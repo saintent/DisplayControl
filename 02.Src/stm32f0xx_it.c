@@ -32,7 +32,8 @@
 #include "system.h"
 #include "uart.h"
 #include "timer.h"
-//#include "main.h"
+
+extern void SystickHandler(void);
 
 /** @addtogroup Template_Project
   * @{
@@ -96,7 +97,7 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-  //TimingDelay_Decrement();
+	SystickHandler();
 }
 
 /******************************************************************************/
@@ -126,13 +127,6 @@ void USART1_IRQHandler(void) {
 	if(USART_GetITStatus(UART_PORT, USART_IT_TXE) != RESET) {
 		UsartTxHandler(USART_1);
 	}
-}
-
-/**
- * @brief DMA Channal 2,3 request
- */
-void DMA1_Channel2_3_IRQHandler(void) {
-
 }
 
 /**

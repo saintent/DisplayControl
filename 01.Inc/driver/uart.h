@@ -10,10 +10,23 @@
 #include "stdint.h"
 #include "stdlib.h"
 #include "string.h"
-#include "system.h"
+//#include "system.h"
+#include "stm32f0xx.h"
 #include "stm32f0xx_usart.h"
+#include "stm32f0xx_gpio.h"
+
 
 //================ PULBIC DEFINE ============================================//
+#define UART_CLK			RCC_APB2Periph_USART1
+//--------------- Uart attribute ----------------
+#define UART_PORT			USART1
+#define UART_TX_PIN			GPIO_Pin_9
+#define UART_RX_PIN			GPIO_Pin_10
+#define UART_TX_PIN_SRC		GPIO_PinSource9
+#define UART_RX_PIN_SRC		GPIO_PinSource10
+#define UART_GPIO_PORT		GPIOA
+#define UART_GPIO_AF		GPIO_AF_1
+#define UART_IRQn			USART1_IRQn
 //----- Parameter define
 #define RX_BUFF_SIZE				64
 #define MAX_TASK					8
@@ -45,7 +58,7 @@ typedef struct uart_task_tag {
 typedef void UsartRevCallBack_t(uint8_t);
 //================ EXTERN FUNCTION ==========================================//
 void UsartInit(void);
-void UsartSetRevCallback(UsartRevCallBack* fn);
+void UsartSetRevCallback(UsartRevCallBack_t* fn);
 void UartSend(uint8_t* data, uint8_t len);
 
 void UsartRxHandler(UsartPort_t port, uint8_t data);

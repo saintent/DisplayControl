@@ -39,7 +39,7 @@ void UsartInit(void) {
 	NVIC_InitTypeDef NVICInit;
 
 	// Enable USART clock
-	RCC_APB2PeriphClockCmd(UART_CLK, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 
 	// Connect PXx to USART Tx
 	GPIO_PinAFConfig(UART_GPIO_PORT, UART_TX_PIN_SRC, UART_GPIO_AF);
@@ -65,8 +65,9 @@ void UsartInit(void) {
 
 	// NVIC init
 	NVICInit.NVIC_IRQChannel = UART_IRQn;
-	NVICInit.NVIC_IRQChannelPriority = 1;
+	NVICInit.NVIC_IRQChannelPriority = 0;
 	NVICInit.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVICInit);
 
 	// Interrupt Set up
 	USART_ITConfig(UART_PORT, USART_IT_RXNE, ENABLE);
@@ -76,7 +77,7 @@ void UsartInit(void) {
 
 }
 
-void UsartSetRevCallback(UsartRevCallBack* fn) {
+void UsartSetRevCallback(UsartRevCallBack_t* fn) {
 	revCb = fn;
 }
 

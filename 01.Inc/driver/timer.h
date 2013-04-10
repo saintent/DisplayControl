@@ -14,11 +14,12 @@
 //================ PUBLIC MACRO =============================================//
 //
 //================ TYPEDEF DATA TYPE DEFINITION =============================//
-typedef void TimerCallback_t(uint16_t param);
+typedef void TimerCallback_t(uint8_t param);
 //================ ENUMERATOR DEFINITION ====================================//
 typedef enum TimeOutEvent_tag {
 	CHAR_TIMEOUT = 0,
 	RSP_TIMEOUT,
+	SEC_TIMEOUT,
 	TIMEOUT_MAX
 }TimeOutEvent_t;
 //================ TYPEDEF STRUCT/UNION DATA TYPE DEFFINITION ===============//
