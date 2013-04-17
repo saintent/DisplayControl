@@ -36,8 +36,8 @@
 #define HOME_SW_PORT		GPIOA
 #define HOME_SW_PIN			GPIO_Pin_3
 
-#define RST_SW_PORT
-#define RSP_SW_PIN
+#define RST_SW_PORT			GPIOF
+#define RST_SW_PIN			GPIO_Pin_4
 //================ PUBLIC MACRO =============================================//
 //
 //================ TYPEDEF DATA TYPE DEFINITION =============================//
@@ -54,10 +54,20 @@ typedef enum BTName_tag {
 	HOME_BT,
 	RST_BT
 }BTName_t;
+
+typedef enum BTPress_tag {
+	BT_RELEAS = 0,
+	BT_PRESS
+}BTPress_t;
 //================ TYPEDEF FUNCTION TYPE DEFFINITION ========================//
-typedef void BTCallBack_t(BTName_t);
+typedef void BTCallBack_t(BTName_t, BTPress_t);
 //================ TYPEDEF STRUCT/UNION =====================================//
-//
+typedef struct ButtonStatus_tag {
+	uint8_t 	Press;
+	uint8_t 	HadProcess;
+	uint8_t		Count;
+	uint8_t 	rsv;
+}ButtonStatus_t;
 //================ EXTERN FUNCTION ==========================================//
 void BTInit(void);
 void SetBTCallback(BTCallBack_t* cb);

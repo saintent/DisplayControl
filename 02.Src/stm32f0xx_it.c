@@ -121,11 +121,18 @@ void SysTick_Handler(void)
  * @brief USART1 Interrupt request
  */
 void USART1_IRQHandler(void) {
-	if(USART_GetITStatus(UART_PORT, USART_IT_RXNE) != RESET) {
-		UsartRxHandler(USART_1, (uint8_t)USART_ReceiveData(UART_PORT));
+	if (USART_GetITStatus(UART_PORT, USART_IT_RXNE ) != RESET) {
+		UsartRxHandler(USART_1, (uint8_t) USART_ReceiveData(UART_PORT ));
+		USART_ClearITPendingBit(UART_PORT, USART_IT_EOB);
+		USART_ClearITPendingBit(UART_PORT, USART_IT_CM);
 	}
-	if(USART_GetITStatus(UART_PORT, USART_IT_TXE) != RESET) {
+
+	if (USART_GetITStatus(UART_PORT, USART_IT_TXE ) != RESET) {
 		UsartTxHandler(USART_1);
+	}
+
+	if (USART_GetITStatus(UART_PORT, USART_IT_ORE ) != RESET) {
+		USART_ClearITPendingBit(UART_PORT, USART_IT_ORE);
 	}
 }
 
@@ -133,7 +140,7 @@ void USART1_IRQHandler(void) {
  * @brief TIM2 request
  */
 void TIM2_IRQHandler(void) {
-	if(TIM_GetITStatus(TIM2, TIM_IT_Update)) {
+	if (TIM_GetITStatus(TIM2, TIM_IT_Update)) {
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 		TimerInterrupt();
 	}

@@ -72,8 +72,11 @@ void UsartInit(void) {
 	// Interrupt Set up
 	USART_ITConfig(UART_PORT, USART_IT_RXNE, ENABLE);
 
+	USART_OverrunDetectionConfig(UART_PORT, USART_OVRDetection_Disable);
+
 	// Enable UART
 	USART_Cmd(UART_PORT, ENABLE);
+
 
 }
 
@@ -83,7 +86,7 @@ void UsartSetRevCallback(UsartRevCallBack_t* fn) {
 
 void UartSend(uint8_t* data, uint8_t len) {
 	if(uartTask[USART_1].NumberOfTask <= (MAX_TASK - 1)) {
-		TASK.Data = malloc(len);
+		//TASK.Data = malloc(len);
 		TASK.Length = len;
 		TASK.Pointer = 0;
 		// Copy data to buffer
@@ -129,7 +132,7 @@ void UsartTxHandler(UsartPort_t port) {
 
 	if (++TASK.Pointer >= TASK.Length) {
 		// End of task
-		free(TASK.Data);
+		//free(TASK.Data);
 
 		if (++uartTask[USART_1].CurrentTask >= MAX_TASK) {
 			uartTask[USART_1].CurrentTask = 0;

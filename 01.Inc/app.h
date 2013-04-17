@@ -38,7 +38,7 @@ typedef struct AppControl_tag {
 }AppControl_t;
 //================ EXTERN FUNCTION ==========================================//
 void TimeOutHandler(uint8_t Event);
-void BTCmd(BTName_t Name);
+void BTCmd(BTName_t Name, BTPress_t Press);
 void DataRecHandler(uint8_t Incomming);
 //================ EXTERN FUNCTION POINTER ==================================//
 //

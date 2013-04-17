@@ -14,16 +14,16 @@
 //
 //================ PRIVATE METHOD ===========================================//
 // non extern function
-void DumCallback(BTName_t bt);
+void DumCallback(BTName_t bt, BTPress_t press);
 //================ PUBLIC DATA ==============================================//
 // extern data
 //
 //================ PRIVATE DATA =============================================//
 // non extern data
-uint8_t Count[9] = { 0 };
+ButtonStatus_t ButtonSta[9];
 BTCallBack_t*	BTCallBack = DumCallback;
 //================ PRIVATE DEFINE ===========================================//
-#define DECISION_TIME		200
+#define DECISION_TIME		100
 //================ PRIVATE MACRO ============================================//
 //
 //================ SOURCE CODE ==============================================//
@@ -40,104 +40,85 @@ void BTInit(void) {
 
 	GpioInit.GPIO_Pin = RIGHT_SW_PIN | EN_SW_PIN | MODE_SW_PIN | HOME_SW_PIN;
 	GPIO_Init(GPIOA, & GpioInit);
+
+	GpioInit.GPIO_Pin = RST_SW_PIN;
+	GPIO_Init(GPIOF, & GpioInit);
+
 }
 
-void DumCallback(BTName_t bt) {
+void DumCallback(BTName_t bt, BTPress_t press) {
 	(void) bt;
+	(void) press;
 }
 
 void SetBTCallback(BTCallBack_t* cb) {
 	BTCallBack = cb;
 }
 
+void BTCheckSta(BTName_t Bt, uint8_t Sta) {
+	if (!ButtonSta[Bt].Press) {
+		// Detect when active high
+		if(Sta) {
+			if (++ButtonSta[Bt].Count >= DECISION_TIME) {
+				ButtonSta[Bt].Press = TRUE;
+				if (!ButtonSta[Bt].HadProcess) {
+					BTCallBack(Bt, BT_PRESS);
+					ButtonSta[Bt].HadProcess = TRUE;
+				}
+			}
+		}
+		else {
+			ButtonSta[Bt].HadProcess = FALSE;
+			ButtonSta[Bt].Count = 0;
+		}
+	}
+	else {
+		// Detect when active low
+		if(!Sta) {
+			if (++ButtonSta[Bt].Count >= DECISION_TIME) {
+				ButtonSta[Bt].Press = FALSE;
+				if (!ButtonSta[Bt].HadProcess) {
+					BTCallBack(Bt, BT_RELEAS);
+					ButtonSta[Bt].HadProcess = TRUE;
+				}
+			}
+		}
+		else {
+			ButtonSta[Bt].HadProcess = FALSE;
+			ButtonSta[Bt].Count = 0;
+		}
+	}
+}
+
 void BTProcess(void) {
+	uint8_t IsPress;
 
-	if(GPIO_ReadInputDataBit(REM_MAN_SW_PORT, REM_MAN_SW_PIN)) {
-		if(++Count[RM_BT] >= DECISION_TIME) {
-			BTCallBack(RM_BT);
-			Count[RM_BT] = 0;
-		}
-	}
-	else {
-		Count[RM_BT] = 0;
-	}
+	IsPress = GPIO_ReadInputDataBit(REM_MAN_SW_PORT, REM_MAN_SW_PIN);
+	BTCheckSta(RM_BT, IsPress);
 
-	if(GPIO_ReadInputDataBit(LEFT_SW_PORT, LEFT_SW_PIN)) {
-		if(++Count[L_BT] >= DECISION_TIME) {
-			BTCallBack(L_BT);
-			Count[L_BT] = 0;
-		}
-	}
-	else {
-		Count[L_BT] = 0;
-	}
+	IsPress = GPIO_ReadInputDataBit(LEFT_SW_PORT, LEFT_SW_PIN);
+	BTCheckSta(L_BT, IsPress);
 
-	if(GPIO_ReadInputDataBit(DW_SW_PORT, DW_SW_PIN)) {
-		if(++Count[U_BT] >= DECISION_TIME) {
-			BTCallBack(U_BT);
-			Count[U_BT] = 0;
-		}
-	}
-	else {
-		Count[U_BT] = 0;
-	}
+	IsPress = GPIO_ReadInputDataBit(DW_SW_PORT, DW_SW_PIN);
+	BTCheckSta(D_BT, IsPress);
 
-	if(GPIO_ReadInputDataBit(UP_SW_PORT, UP_SW_PIN)) {
-		if(++Count[D_BT] >= DECISION_TIME) {
-			BTCallBack(D_BT);
-			Count[D_BT] = 0;
-		}
-	}
-	else {
-		Count[D_BT] = 0;
-	}
+	IsPress = GPIO_ReadInputDataBit(UP_SW_PORT, UP_SW_PIN);
+	BTCheckSta(U_BT, IsPress);
 
-	if(GPIO_ReadInputDataBit(RIGHT_SW_PORT, RIGHT_SW_PIN)) {
-		if(++Count[R_BT] >= DECISION_TIME) {
-			BTCallBack(R_BT);
-			Count[R_BT] = 0;
-		}
-	}
-	else {
-		Count[R_BT] = 0;
-	}
+	IsPress = GPIO_ReadInputDataBit(RIGHT_SW_PORT, RIGHT_SW_PIN);
+	BTCheckSta(R_BT, IsPress);
 
-	if(GPIO_ReadInputDataBit(EN_SW_PORT, EN_SW_PIN)) {
-		if(++Count[EN_BT] >= DECISION_TIME) {
-			BTCallBack(EN_BT);
-			Count[EN_BT] = 0;
-		}
-	}
-	else {
-		Count[EN_BT] = 0;
-	}
+	IsPress = GPIO_ReadInputDataBit(EN_SW_PORT, EN_SW_PIN);
+	BTCheckSta(EN_BT, IsPress);
 
-	if(GPIO_ReadInputDataBit(MODE_SW_PORT, MODE_SW_PIN)) {
-		if(++Count[MODE_BT] >= DECISION_TIME) {
-			BTCallBack(MODE_BT);
-			Count[MODE_BT] = 0;
-		}
-	}
-	else {
-		Count[MODE_BT] = 0;
-	}
+	IsPress = GPIO_ReadInputDataBit(MODE_SW_PORT, MODE_SW_PIN);
+	BTCheckSta(MODE_BT, IsPress);
 
-	if(GPIO_ReadInputDataBit(HOME_SW_PORT, HOME_SW_PIN)) {
-		if(++Count[HOME_BT] >= DECISION_TIME) {
-			BTCallBack(HOME_BT);
-			Count[HOME_BT] = 0;
-		}
-	}
-	else {
-		Count[HOME_BT] = 0;
-	}
+	IsPress = GPIO_ReadInputDataBit(HOME_SW_PORT, HOME_SW_PIN);
+	BTCheckSta(HOME_BT, IsPress);
 
-	/*if(GPIO_ReadInputDataBit(RST_SW_PORT, RSP_SW_PIN)) {
-
-	}
-	else {
-
-	}*/
+	IsPress = GPIO_ReadInputDataBit(RST_SW_PORT, RST_SW_PIN);
+	BTCheckSta(RST_BT, IsPress);
 
 }
 

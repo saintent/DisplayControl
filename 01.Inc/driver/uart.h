@@ -43,9 +43,9 @@ typedef enum usart_port_tag {
 }UsartPort_t;
 //================ TYPEDEF STRUCT/UNION DATA TYPE DEFFINITION ===============//
 typedef struct uart_task_attr_tag {
-	uint8_t* 			Data;
+	uint8_t 			Data[30];
 	uint8_t 			Length;
-	uint16_t 			Pointer;
+	uint8_t 			Pointer;
 }UartTaskAttribute_t;
 
 typedef struct uart_task_tag {

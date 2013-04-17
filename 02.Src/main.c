@@ -28,6 +28,7 @@
 //================ PRIVATE DEFINE ===========================================//
 //#define TEST_SYS_TICK
 #define MAX_RSP_TM		5
+#define MAX_CH_TM		20
 //================ PRIVATE MACRO ============================================//
 //
 //================ SOURCE CODE ==============================================//
@@ -61,19 +62,31 @@ void SystickHandler(void) {
 
 void main(void) {
 
+	//RCC_ClockSecuritySystemCmd(ENABLE);
+	// PLL at 16 Mhz
+	//RCC_PLLCmd(DISABLE);
+	//while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY));
+	//RCC_PLLConfig(RCC_PLLSource_HSI_Div2, RCC_PLLMul_4);
+	//RCC_PLLCmd(ENABLE);
+	//while(!RCC_GetFlagStatus(RCC_FLAG_PLLRDY));
+	// Change clock to PLL
+	//RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOF, ENABLE);
 	// SysTick Config
 	if (SysTick_Config(SystemCoreClock / 5000)) {
 		/* Capture error */
 		while (1)
 			;
 	}
+        
 	// Button Config
-	//BTInit();
+	BTInit();
 	// Set button callback
-	//SetBTCallback(BTCmd);
+	SetBTCallback(BTCmd);
 
 	// Led init
 	LedInit();
@@ -81,9 +94,9 @@ void main(void) {
 	// Timer Init
 	TimerInit();
 	// Set 1 sec toggle led
-	SetTimeOutCallBack(SEC_TIMEOUT, 5, DPStaHandler);
+	SetTimeOutCallBack(SEC_TIMEOUT, 10, DPStaHandler);
 	// Set time out for character time out
-	SetTimeOutCallBack(CHAR_TIMEOUT, 3, TimeOutHandler);
+	SetTimeOutCallBack(CHAR_TIMEOUT, MAX_CH_TM, TimeOutHandler);
 	// Set time our for response time out
 	SetTimeOutCallBack(RSP_TIMEOUT, MAX_RSP_TM, TimeOutHandler);
 

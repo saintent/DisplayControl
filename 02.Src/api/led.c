@@ -19,9 +19,9 @@
 //================ PRIVATE DATA =============================================//
 // non extern data
 uint8_t displayData[5][8] = {
-		{ 1, 1, 1, 1, 1, 1, 1, 1 },		// M Row 2
-		{ 1, 1, 1, 1, 1, 1, 1, 1 },		// M ROw 1
-		{ 1, 1, 1, 1, 1, 1, 1, 1 },		// Status
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },		// M Row 2
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },		// M ROw 1
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },		// Status
         //A  B  C  D  E  F  G DP
 		{ 1, 1, 1, 1, 1, 1, 1, 1 },		// Digit 1
 		{ 1, 1, 1, 1, 1, 1, 1, 1 }		// Digit 2
@@ -135,7 +135,7 @@ void LedProcess(void) {
 			WriteValue(DispDataRowPort, DispDataRowPin, &displayData[STATUS_LED][0]);
 
 			// Go to M_ROW2
-			LedControl.LedState = DUM1;
+			LedControl.LedState = M_ROW2;
 			break;
 		case DUM1 :
 			GPIO_ResetBits(COLUMN_PORT, DispDataColumnPin[COLUMN_3]);

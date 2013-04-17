@@ -33,13 +33,13 @@ void TimerInit(void) {
 
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelPriority = 1;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
 	TIM_TimeBaseInitTypeDef TimerInit = {
 			.TIM_Period = 100,
-			.TIM_Prescaler = 11999,
+			.TIM_Prescaler = 8000,
 			.TIM_ClockDivision = TIM_CKD_DIV4,
 			.TIM_CounterMode = TIM_CounterMode_Up
 	};

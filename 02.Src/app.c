@@ -35,36 +35,82 @@ AppControl_t 		AppControl;
 #define CREATE_RSP_FAIL	memcpy(AppControl.TxData, "\r\nERROR\r\n", 9)
 //================ SOURCE CODE ==============================================//
 
-void BTCmd(BTName_t Name) {
+void BTCmd(BTName_t Name, BTPress_t Press) {
 	uint8_t cmdLn = 10;
 	switch (Name) {
 		case RM_BT :
-			memcpy(AppControl.TxData, "AT*BTRM=0\r", 10);
+			if(Press) {
+				memcpy(AppControl.TxData, "AT*BTRM=0\r", 10);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTRM=1\r", 10);
+			}
 			break;
 		case L_BT :
-			memcpy(AppControl.TxData, "AT*BTLT=0\r", 10);
+			if(Press) {
+				memcpy(AppControl.TxData, "AT*BTLT=0\r", 10);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTLT=1\r", 10);
+			}
 			break;
 		case U_BT :
-			memcpy(AppControl.TxData, "AT*BTUP=0\r", 10);
+			if(Press) {
+				memcpy(AppControl.TxData, "AT*BTUP=0\r", 10);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTUP=1\r", 10);
+			}
 			break;
 		case D_BT :
-			memcpy(AppControl.TxData, "AT*BTDW=0\r", 10);
+			if(Press) {
+				memcpy(AppControl.TxData, "AT*BTDW=0\r", 10);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTDW=1\r", 10);
+			}
 			break;
 		case R_BT :
-			memcpy(AppControl.TxData, "AT*BTRT=0\r", 10);
+			if(Press) {
+				memcpy(AppControl.TxData, "AT*BTRT=0\r", 10);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTRT=1\r", 10);
+			}
+
 			break;
 		case MODE_BT :
-			memcpy(AppControl.TxData, "AT*BTMF=0\r", 10);
+			if(Press) {
+				memcpy(AppControl.TxData, "AT*BTMF=0\r", 10);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTMF=1\r", 10);
+			}
 			break;
 		case EN_BT :
-			memcpy(AppControl.TxData, "AT*BTENT=0\r", 11);
+			if(Press) {
+				memcpy(AppControl.TxData, "AT*BTENT=0\r", 11);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTENT=1\r", 11);
+			}
 			cmdLn = 11;
 			break;
 		case HOME_BT :
-			memcpy(AppControl.TxData, "AT*BTHM=0\r", 10);
+			if (Press) {
+				memcpy(AppControl.TxData, "AT*BTHM=0\r", 10);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTHM=1\r", 10);
+			}
 			break;
 		case RST_BT :
-			memcpy(AppControl.TxData, "AT*BTRST=0\r", 11);
+			if (Press) {
+				memcpy(AppControl.TxData, "AT*BTRST=0\r", 11);
+			}
+			else {
+				memcpy(AppControl.TxData, "AT*BTRST=1\r", 11);
+			}
 			cmdLn = 11;
 			break;
 	}
