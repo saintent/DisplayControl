@@ -19,9 +19,9 @@
 //================ PRIVATE DATA =============================================//
 // non extern data
 uint8_t displayData[5][8] = {
-		{ 0, 0, 0, 0, 0, 0, 0, 0 },		// M Row 2
-		{ 0, 0, 0, 0, 0, 0, 0, 0 },		// M ROw 1
-		{ 0, 0, 0, 0, 0, 0, 0, 0 },		// Status
+		{ 1, 1, 1, 1, 1, 1, 1, 1 },		// M Row 2
+		{ 1, 1, 1, 1, 1, 1, 1, 1 },		// M ROw 1
+		{ 1, 1, 1, 1, 1, 1, 1, 1 },		// Status
         //A  B  C  D  E  F  G DP
 		{ 1, 1, 1, 1, 1, 1, 1, 1 },		// Digit 1
 		{ 1, 1, 1, 1, 1, 1, 1, 1 }		// Digit 2
@@ -101,7 +101,9 @@ void WriteValue(GPIO_TypeDef** Port, uint16_t* Pin, uint8_t* Src) {
 }
 
 void LedProcess(void) {
+	uint8_t dump[8] = { 0 };
 
+	WriteValue(DispDataRowPort, DispDataRowPin, &dump[0]);
 	// Led status Process
 	switch (LedControl.LedState) {
 		case M_ROW2 :
@@ -147,6 +149,7 @@ void LedProcess(void) {
 	}
 
 	// 7 Segment Process
+	WriteValue(Segment7Port, Segment7Pin, &dump[0]);
 	switch (LedControl.Segment7State) {
 		case DIGIT1 :
 			// Open Column
@@ -168,15 +171,15 @@ void LedProcess(void) {
 			WriteValue(Segment7Port, Segment7Pin, &displayData[DIGIT2][0]);
 
 			// Go to DIGIT1
-			LedControl.Segment7State = DUM1;
+			LedControl.Segment7State = DIGIT1;
 			break;
-		case DUM1:
+/*		case DUM1:
 			GPIO_ResetBits(Segment7ComPort[0], Segment7ComPin[0]);
-			LedControl.Segment7State = DUM2;
+			LedControl.Segment7State = DIGIT1;
 			break;
 		case DUM2 :
 			LedControl.Segment7State = DIGIT1;
-			break;
+			break;*/
 		default:
 			LedControl.Segment7State = DIGIT1;
 			break;
